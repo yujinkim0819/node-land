@@ -1,3 +1,4 @@
+// 파일 목록 기능
 var testFolder = './data'; // 현재디렉토리에 있는 data
 var fs = require('fs');
 
