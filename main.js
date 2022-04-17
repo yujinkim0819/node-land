@@ -60,7 +60,7 @@ var app = http.createServer(function(request,response){
         var title = 'WEB - create';
         var list = templateList(filelist);
         var template = templateHTML(title, list, `
-          <form action="http://localhost:3000/process_create" method="post">
+          <form action="http://localhost:3000/create_process" method="post">
             <p><input type="text" name="title" placeholder="title"></p>
             <p>
               <textarea name="description" placeholder="description"></textarea>
@@ -73,7 +73,25 @@ var app = http.createServer(function(request,response){
         response.writeHead(200);
         response.end(template);
       });
-    } else {
+    } else if(pathname === '/create_process'){
+      var body = '';
+      // 웹 브라우저가 post방식으로 정보 전달할 떄 정보의 양이 많을 떄 문제가 생기는 경우, 
+      // 나누어 수신하는데 그 떄마다 이 콜백함수를 호출
+      request.on('data', function (data) {
+        body = body + data; // data추가
+      });
+
+      // 더 이상 들어올 정보가 없을 경우 이 콜백함수 호출
+      request.on('end', function () {
+        var post = qs.parse(body);
+        var title = post.title;
+        var description = post.description;
+        console.log(post.title);
+      })
+      response.writeHead(200);
+      response.end('success');
+    } 
+    else {
       response.writeHead(404);
       response.end('Not found');
     }
