@@ -1,6 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 var url = require('url');
+var qs = require('querystring');
  
 function templateHTML(title, list, body){
   return `
@@ -75,28 +76,21 @@ var app = http.createServer(function(request,response){
       });
     } else if(pathname === '/create_process'){
       var body = '';
-      // 웹 브라우저가 post방식으로 정보 전달할 떄 정보의 양이 많을 떄 문제가 생기는 경우, 
-      // 나누어 수신하는데 그 떄마다 이 콜백함수를 호출
-      request.on('data', function (data) {
-        body = body + data; // data추가
+      request.on('data', function(data){
+          body = body + data;
       });
-
-      // 더 이상 들어올 정보가 없을 경우 이 콜백함수 호출
-      request.on('end', function () {
-        var post = qs.parse(body);
-        var title = post.title;
-        var description = post.description;
-        console.log(post.title);
-      })
-      response.writeHead(200);
-      response.end('success');
-    } 
-    else {
+      request.on('end', function(){
+          var post = qs.parse(body);
+          var title = post.title;
+          var description = post.description;
+          fs.writeFile(`data/${title}`, description, 'utf8', function(err){
+            response.writeHead(302, {Location: `/?id=${title}`});
+            response.end();
+          })
+      });
+    } else {
       response.writeHead(404);
       response.end('Not found');
     }
- 
- 
- 
 });
 app.listen(3000);
