@@ -1,0 +1,25 @@
+{
+  "name": "land",
+  "version": "1.0.0",
+  "description": "node-lend",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yujinkim0819/node-land.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yujinkim0819/node-land/issues"
+  },
+  "homepage": "https://github.com/yujinkim0819/node-land#readme",
+  "dependencies": {
+    "sanitize-html": "^2.7.0"
+  }
+}
